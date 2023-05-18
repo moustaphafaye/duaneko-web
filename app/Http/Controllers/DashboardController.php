@@ -42,4 +42,14 @@ class DashboardController extends Controller
         $report = Report::findOrFail($id);
         return view('dashboard.showReport', compact('report'));
     }
+
+    public function signaller(){
+        return view('dashboard.signale');
+    }
+
+    public function reportzone(){
+        $reports = Report::all();
+        return view('dashboard.reportzone',['reports'=>$reports]);
+    }
+    
 }

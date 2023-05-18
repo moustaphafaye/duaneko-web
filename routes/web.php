@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\AgentController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\DashboardController;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\AgentController;
+use App\Http\Controllers\Api\ReportController;
+use App\Http\Controllers\CompanyController;
+
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EvenementController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +38,7 @@ Route::controller(DashboardController::class)->group(function () {
     Route::put('/dashboard/updateAgents/{agent}', [AgentController::class, 'update'])->name('updateAgents');
     Route::delete('/dashboard/deleteAgents/{agent}', [AgentController::class, 'delete'])->name('deleteAgents');
 
+    Route::get('/dashboard/signaller','signaller')->name('signale');
     Route::get('/dashboard/home', 'index')->name('dashboard');
     Route::get('/dashboard/report', 'report')->name('report');
     Route::get('/dashboard/detailsReports', [DashboardController::class, 'detailsReports'])->name('detailsReports');
@@ -50,5 +53,21 @@ Route::controller(DashboardController::class)->group(function () {
     Route::put('/dashboard/updateCompanies/{company}', [CompanyController::class, 'update'])->name('updateCompanies');
     Route::delete('/dashboard/deleteCompanies/{company}', [CompanyController::class, 'delete'])->name('deleteCompanies');
 });
+Route::get('/dashboard/evenement' ,[EvenementController::class,'formEvenement'] )->name('eventform');
+Route::post('/dashboard/evenement' ,[EvenementController::class,'creer'] )->name('creerEvenement');
+Route::get('/dashboard/listEvenement' ,[EvenementController::class,'listevent'] )->name('liste_evenement');
+
+Route::get('/dashboard/showEvenement/{event}' ,[EvenementController::class,'show'] )->name('show_evenement');
+Route::put('/dashboard/updateEvenement/{event}' ,[EvenementController::class,'update'] )->name('update_evenement');
+Route::delete('/dashboard/deleteEvenement/{event}', [EvenementController::class, 'delete'])->name('delete_evenement');
+Route::get('dashboard/mesagents', [AgentController::class , 'MyAgents'])->name('mesagents');
+
+Route::get('reporyzone',[DashboardController::class , 'reportzone'])->name('reportzone');
+
+
+
+
+
+
 
 

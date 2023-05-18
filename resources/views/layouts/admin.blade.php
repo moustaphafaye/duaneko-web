@@ -9,8 +9,10 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
         integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
         integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 
@@ -18,6 +20,7 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/fonts/feather.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/fonts/fontawesome.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/fonts/material.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 
     <!-- vendor css -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
@@ -91,6 +94,29 @@
                             </a>
                         </li>
                     @endif
+                    @if (Auth::user()->is_admin() or Auth::user()->is_admin_agent())
+                    <li class="pc-item">
+                            <a href="{{ route('eventform') }}" class="pc-link "><span class="pc-micon"><i
+                                class="material-icons-two-tone">date_range</i></span>
+                                <span class="pc-mtext">Évènements</span>
+                                
+                            </a>
+                        </li>
+                        @endif
+                    @if (Auth::user()->is_admin_agent())
+                    <li class="pc-item">
+                            <a href="{{ route('mesagents') }}" class="pc-link "><span class="pc-micon"><i
+                                class="material-icons-two-tone">group</i></span>
+                                <span class="pc-mtext">Mes Agents</span>
+                            </a>
+                        </li>
+                     @endif
+                     <li class="pc-item">
+                            <a href="{{ route('reportzone') }}" class="pc-link "><span class="pc-micon"><i
+                                class="material-icons-two-tone">group</i></span>
+                                <span class="pc-mtext">Depots par zone</span>
+                            </a>
+                        </li>
                 </ul>
             </div>
         </div>
@@ -143,6 +169,13 @@
 
     <!-- [ Main Content ] start -->
     @yield('content')
+    <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5zwT53mXvHqmw_CXQJiMU4iWtG2BND_o&callback=initMap">
+</script>
+<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5zwT53mXvHqmw_CXQJiMU4iWtG2BND_o&callback=initMap&v=weekly&channel=2"
+      async
+    ></script>
 
     <!-- JQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
@@ -155,6 +188,9 @@
     <script src="{{ asset('admin/assets/js/plugins/bootstrap.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/plugins/feather.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/pcoded.min.js') }}"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <!-- <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>   -->
+
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> -->
     <!-- <script src="assets/js/plugins/clipboard.min.js"></script> -->
     <!-- <script src="assets/js/uikit.min.js"></script> -->

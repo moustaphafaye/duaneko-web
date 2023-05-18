@@ -31,7 +31,7 @@
     {{-- <script src="{{ asset('admin/assets/js/plugins/apexcharts.min.js') }}"></script> --}}
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/sass/app.scss','resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -66,7 +66,7 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->full_name() }}
+                                    {{ Auth::user()->full_name() }} 
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

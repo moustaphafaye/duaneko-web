@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Agent extends Authenticatable
 {
@@ -30,6 +31,16 @@ class Agent extends Authenticatable
         return $this->role == \App\Enum\AgentRoleEnum::ADMIN;
     }
 
+    public function is_agent()
+    {
+        return $this->role == \App\Enum\AgentRoleEnum::AGENT;
+    }
+
+    public function is_admin_agent()
+    {
+        return $this->role == \App\Enum\AgentRoleEnum::ADMIN_AGENT;
+    }
+
     /**
      * Get all of the comments for the Agent
      *
@@ -39,5 +50,10 @@ class Agent extends Authenticatable
     public function company() : BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function evenement() : HasMany
+    {
+        return $this->hasMany(Evenement::class);
     }
 }

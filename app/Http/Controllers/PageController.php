@@ -29,15 +29,34 @@ class PageController extends Controller
     public function loginUser(Request $request)
     {
         
+
         $credentials = $request->only('email', 'password');
-        // return redirect('dashboard/home');
-        
         if (Auth::attempt($credentials)) {
-            // dd(Auth::user()->role);
-            
-            return redirect()->intended('dashboard/home')->with('success', 'Connecté!');
+            $id = Auth::user()->id;
+            $role = Auth::user()->role;
+            $roles = $role;
+            // dd($roles);
+            if($roles =='admin_agent'){
+
+                $afficherole = 'admin_agent';
+                // dd($afficherole);
+                return view('dashboard.index', ['role'=>$role, 'roles'=> $afficherole]);
+
+                
+            }
+        return view('dashboard.index', ['role'=>$role ]);
+
+            // return redirect()->intended('dashboard/home')->with('success', 'Connecté!');
         }
-        else {
+        elseif((empty($request->email)) || (empty($request->password)) ){
+            // dd('ok');
+            $request->validate([
+                'email'=>'required|min:3',
+                'password'=>'required|min:3'
+            ]);
+            return redirect()->back();
+        }
+        else  {
             return redirect('login')->withErrors(['login' => 'Les informations de connexion ne sont pas valides']);
         
         }

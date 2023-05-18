@@ -12,4 +12,6 @@ class ReportController extends Controller
     {
         $report = Report::all();
     }
+
+   
 }

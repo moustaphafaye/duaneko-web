@@ -98,7 +98,7 @@
               <span class="input-group-text"><i data-feather="user"></i></span>
               <select name="role" id="" class="form-control">
                 <option value="agent">agent</option>
-                <option value="admin">admin</option>
+                <!-- <option value="admin">admin</option>  -->
                 <option value="admin_agent">admin_agent</option>
               </select>
             </div>

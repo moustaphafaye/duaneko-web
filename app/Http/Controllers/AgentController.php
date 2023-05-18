@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -96,6 +97,28 @@ class AgentController extends Controller
         $agent = Agent::find($agent);
         return view('dashboard.showAgents', ['agent'=>$agent[0]]);
     }
+    
+
+    public function MyAgents()
+    {
+        // $id = Auth::user()->id
+        $id_company = Auth::user()->company_id;
+        // dd( $id_company);
+        $mesAgents = array();
+        $agent = Agent::all();
+        $i = 0;
+        // $articles = Agent::orderBy('created_at', 'desc')->paginate(10);
+         foreach($agent as $element){
+            if( $element['company_id'] == $id_company ){
+                // dd($element->);
+                $mesAgents[] = $element;
+                
+            }
+        }
+       
+        return view('dashboard.mesagents', ['myagents'=>$mesAgents]);
+    }
+
 
     public function showData(Agent $agent)
     {
@@ -139,8 +162,13 @@ class AgentController extends Controller
             'email' => $request['email'],
             'phone' => $request['phone'],
         ]);
-
-        return redirect()->route('listAgents')->with('success', 'Agent modifié avec succès.');
+        //  dd(Auth::user()->id );
+            if(Auth::user()->role == 'admin'){
+                return redirect()->route('listAgents')->with('success', 'Agent modifié avec succès.');
+            }else{
+                // mesagents
+                return redirect()->route('mesagents')->with('success', 'Agent modifié avec succès.');
+            }
     }
 
     /**

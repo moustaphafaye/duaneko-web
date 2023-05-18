@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Company extends Model
 {
@@ -36,8 +37,8 @@ class Company extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
 
-    public function agent() : HasMany
+    public function zone(): HasOne
     {
-        return $this->hasMany(Agent::class);
+        return $this->hasOne(Zone::class);
     }
 }
