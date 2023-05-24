@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
+use App\Models\Agent;
 use App\Models\Report;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Models\Company;
 use Illuminate\View\View;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class DashboardController extends Controller
 {
@@ -15,7 +16,42 @@ class DashboardController extends Controller
     public function index(): View
     {
         // dd('ok');
-        return view('dashboard.index');
+        $report_done=0;
+        $report_done=0;
+        $report_in_progress=0;
+        $reports = Report::all();
+        $TCompany = Company::all();
+        $TotalAgent_Admin=Agent::all();
+        $agent_admin=0;
+        $agent=0;
+        $nombre=0;
+        $totalcompanies=0;
+        
+        foreach($reports as $element){
+            // dd($element->status= \App\Enum\ReportStatusEnum::DONE);
+            if($element->status == \App\Enum\ReportStatusEnum::DONE){
+                $report_done++;
+            }else{
+                $report_in_progress++;
+            }
+            $nombre++;
+            
+        }
+        foreach($TCompany as $tagents){
+            $totalcompanies++;
+        }
+        foreach($TotalAgent_Admin as $Total){
+            if($Total->role == \App\Enum\AgentRoleEnum::ADMIN_AGENT){
+                $agent_admin++;
+            }else{
+                $agent++;
+            }
+        }
+        
+        return view('dashboard.index',['reports'=>$reports,'totalreport'=>$nombre,'report_done'=>$report_done,
+                                        'report_in_progress'=>$report_in_progress,'totalcompanies'=>$totalcompanies,
+                                        'agent_admin'=>$agent_admin,'agent'=>$agent]);
+        // return view('dashboard.index');
     }
 
     public function report(): View

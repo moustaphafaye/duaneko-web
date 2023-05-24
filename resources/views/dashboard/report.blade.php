@@ -59,7 +59,7 @@ body {
         let latitude = position.coords.latitude;
         let longitude = position.coords.longitude;
         let map = window.L.map('map').setView([latitude, longitude], 13);
-
+        // console.log(map);
         const reports = <?php echo json_encode($reports); ?>;
 
         icon = L.divIcon({
@@ -101,7 +101,7 @@ body {
             bbox.getSouthEast(),
             bbox.getNorthEast(),
             bbox.getNorthWest(),
-            bbox.getSouthWest()
+            bbox.getSouthWest() 
             ]).addTo(map);
             map.fitBounds(poly.getBounds());
             var latlng = e.geocode.center;
@@ -119,64 +119,71 @@ body {
     }
 
     if (navigator.geolocation) { navigator.geolocation.getCurrentPosition(success, error); }
+////////////////////////////////////--ici--////////////////////////////////
+function pointInPolygon(zone, region) {
+  const vertices = region.vertices;
+  const latitude = zone.latitude;
+  const longitude = zone.longitude;
+  let intersections = 0;
+  const verticesCount = vertices.length;
 
-//////////////////////////////////Délimiter///////////////////////////////////////////
+  for (let i = 0, j = verticesCount - 1; i < verticesCount; j = i++) {
+    const xi = vertices[i].latitude;
+    const yi = vertices[i].longitude; 
+    const xj = vertices[j].latitude;
+    const yj = vertices[j].longitude;
+
+    const intersect =
+      (yi > longitude) !== (yj > longitude) &&
+      (latitude <
+        ((xj - xi) * (longitude - yi)) / (yj - yi) + xi);
+
+        // alert(intersect);
+    if (intersect) {
+      intersections++;
+    }
+  }
+ 
+  return intersections % 2 !== 0;
+}
+
+// Coordonnées de la zone
+const zone = {
+    latitude: 14.721571, 
+    longitude: -17.5029931,
+};
+
+// Définition du polygone de la région (ex : New York)
+const region = {
+    vertices: [
+        { latitude: 14.7333799, longitude: -17.4755624 },   
+        { latitude: 14.7097626, longitude: -17.4755624 },
+        { latitude: 14.7097626, longitude: -17.5098244 },
+        { latitude: 14.7333799, longitude: -17.5098244 },
+    ],
+};
 
 
+// Création de la carte
+// let map = window.L.map('map').setView([14.721571, -17.5029931], 13);
+const map = L.map("map").setView([14.721571, -17.5029931], 12);
 
-        // // Créer une carte Leaflet
-        // var map = L.map('map');
-        // let map = window.L.map('map').setView([latitude, longitude], 13);
-        // // Ajouter une couche de tuiles (par exemple, OpenStreetMap)
-        // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        // attribution: '© OpenStreetMap contributors'
-        // }).addTo(map);
 
-        // // Ajouter le contrôle de géocodage
-        // var geocoder = L.Control.geocoder().addTo(map);
+// Ajout des tuiles de la carte
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'    ,
+    }
+    ).addTo(map);
 
-        // // Liste de marqueurs (exemple)
-        // var markers = [
-        // { lat: 51.505, lng: -0.09, nom: 'Marqueur 1' },
-        // { lat: 51.51, lng: -0.1, nom: 'Marqueur 2' },
-        // { lat: 51.505, lng: -0.11, nom: 'Marqueur 3' }
-        // ];
+      // Vérification si la zone est à l'intérieur de la région
+      const isInsideRegion = pointInPolygon(zone, region);
 
-        // // Fonction pour afficher les marqueurs dans la zone de recherche
-        // function afficherMarqueursDansZone(zone) {
-        // // Supprimer tous les marqueurs existants de la carte
-        // map.eachLayer(function(layer) {
-        //     if (layer instanceof L.Marker) {
-        //     map.removeLayer(layer);
-        //     }
-        // });
+      // Si la zone est dans la région, affiche le marqueur
+      if (isInsideRegion) {
+       L.marker([zone.latitude, zone.longitude]).addTo(map);
+      } 
+    
 
-        // // Boucler sur les marqueurs
-        // markers.forEach(function(marker) {
-        //     var latlng = L.latLng(marker.lat, marker.lng);
-
-        //     // Vérifier si le marqueur est dans la zone de recherche
-        //     if (zone.contains(latlng)) {
-        //     // Créer un marqueur et l'ajouter à la carte
-        //     L.marker(latlng).addTo(map).bindPopup(marker.nom);
-        //     }
-        // });
-        // }
-
-        // // Écouter l'événement 'markgeocode' du contrôle de géocodage
-        // geocoder.on('markgeocode', function(e) {
-        // var boundingBox = e.geocode.bbox;
-
-        // // Vérifier si une zone de recherche est disponible
-        // if (boundingBox) {
-        //     var southWest = L.latLng(boundingBox.getSouth(), boundingBox.getWest());
-        //     var northEast = L.latLng(boundingBox.getNorth(), boundingBox.getEast());
-        //     var zone = L.latLngBounds(southWest, northEast);
-
-        //     // Appeler la fonction pour afficher les marqueurs dans la zone de recherche
-        //     afficherMarqueursDansZone(zone);
-        // }
-        // });
 
 
 

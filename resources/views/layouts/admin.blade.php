@@ -15,6 +15,7 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
         integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+        
 
     <!-- font css -->
     <link rel="stylesheet" href="{{ asset('admin/assets/fonts/feather.css') }}">
@@ -169,6 +170,7 @@
 
     <!-- [ Main Content ] start -->
     @yield('content')
+    
     <script async
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5zwT53mXvHqmw_CXQJiMU4iWtG2BND_o&callback=initMap">
 </script>
