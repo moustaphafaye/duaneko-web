@@ -46,7 +46,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             return redirect()->intended('/dashboard/home')
             ->withSuccess('Connecté');
-            dd('ok');
+            // dd('ok');
         }
 
         return redirect("login")->withSuccess('Les informations de connexion ne sont pas valides');
